@@ -4,22 +4,96 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Restaurant List</title>
+
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      h1 {
+        text-align: center;
+        color: #007bff;
+        margin-top: 50px;
+      }
+
+      form {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      label {
+        font-weight: bold;
+        color: #333;
+        margin-right: 10px;
+      }
+
+      input[type="text"] {
+        width: 200px;
+        padding: 10px;
+        margin-right: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        transition: border-color 0.3s ease-in-out;
+      }
+
+      input[type="text"]:focus {
+        border-color: #007bff;
+      }
+
+      button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        background-color: #fff;
+        padding: 20px;
+        margin: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      }
+
+      li:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .item-name {
+        font-weight: bold;
+        color: #dc3545;
+      }
+
+      .restaurant-info {
+        margin-top: 10px;
+        color: #6c757d;
+      }
+
+      p {
+        text-align: center;
+        color: #dc3545;
+      }
+    </style>
   </head>
-  <style>
-    /* Add your CSS styles here */
-    h2 {
-      color: #333;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    li {
-      margin-bottom: 10px;
-    }
-  </style>
 
   <body>
     <h1>Restaurant List</h1>
@@ -29,5 +103,19 @@
       <input type="text" id="search-query" name="query" required />
       <button type="submit">Search</button>
     </form>
+    {% if matching_items %}
+    <ul>
+      {% for item in matching_items %}
+      <li>
+        <p class="item-name">{{ item.name }} - {{ item.price }}</p>
+        {% for restaurant in item.restaurant_set.all %}
+        <p class="restaurant-info">
+          Restaurant: {{ restaurant.name }} - {{ restaurant.location }}
+        </p>
+        {% endfor %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %} {% endif %}
   </body>
 </html>
