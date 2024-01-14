@@ -1,0 +1,38 @@
+<style>
+  /* Add your CSS styles here */
+  h2 {
+    color: #333;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
+  .item-name {
+    font-weight: bold;
+  }
+</style>
+
+<h2>Search Results for "{{ query }}"</h2>
+<form method="get" action="{% url 'search_results' %}">
+  {% csrf_token %}
+  <label for="search-query">Search:</label>
+  <input type="text" id="search-query" name="query" required />
+  <button type="submit">Search</button>
+</form>
+{% if matching_items %}
+<h3>Matching Items</h3>
+<ul>
+  {% for item in matching_items %}
+  <li class="item-name">{{ item.name }} - {{ item.price }}</li>
+  {% for restaurant in item.restaurant_set.all %}
+  <li>Restaurant: {{ restaurant.name }} - {{ restaurant.location }}</li>
+  {% endfor %} {% endfor %}
+</ul>
+{% else %}
+<p>No matching items found.</p>
+{% endif %}
